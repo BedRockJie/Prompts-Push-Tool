@@ -31,7 +31,9 @@ jobs:
         run: npm run compile
 
       - name: Run tests
-        run: npm run test
+        run: |
+          echo "Starting headless test run with Xvfb"
+          xvfb-run -a --server-args="-screen 0 1024x768x24" npm run test
 
       - name: Package VSIX
         run: npx @vscode/vsce package
