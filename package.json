@@ -1,0 +1,159 @@
+{
+  "name": "promptspushtool",
+  "displayName": "Prompts Push Tool",
+  "description": "Manage shared prompts from external repository with chat integration.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.106.1"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onChatParticipant:promptspushtool"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "promptspushtool.helloWorld",
+        "title": "Hello World",
+        "category": "Prompts"
+      },
+      {
+        "command": "promptspushtool.initializeRepository",
+        "title": "Prompts: Initialize Repository",
+        "category": "Prompts"
+      },
+      {
+        "command": "promptspushtool.pullLatestPrompts",
+        "title": "Prompts: Pull Latest",
+        "category": "Prompts"
+      },
+      {
+        "command": "promptspushtool.openPrompt",
+        "title": "Prompts: Open",
+        "category": "Prompts"
+      },
+      {
+        "command": "promptspushtool.copyPromptContent",
+        "title": "Prompts: Copy Content",
+        "category": "Prompts"
+      },
+      {
+        "command": "promptspushtool.showPromptsFolder",
+        "title": "Prompts: Reveal Folder",
+        "category": "Prompts"
+      }
+    ],
+    "configuration": {
+      "title": "Prompts Push Tool",
+      "properties": {
+        "promptspushtool.repositoryUrl": {
+          "type": "string",
+          "default": "",
+          "description": "Git URL where shared prompts are stored."
+        },
+        "promptspushtool.branch": {
+          "type": "string",
+          "default": "main",
+          "description": "Branch that contains shared prompts."
+        },
+        "promptspushtool.promptsFolder": {
+          "type": "string",
+          "default": "prompts",
+          "description": "Relative path inside the repository where prompt files are stored."
+        },
+        "promptspushtool.autoPullOnActivate": {
+          "type": "boolean",
+          "default": true,
+          "description": "Pull the latest prompts automatically when the extension activates."
+        }
+      }
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "promptspushtool.promptsExplorer",
+          "name": "Shared Prompts"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "promptspushtool.promptsExplorer",
+        "contents": "Clone prompts from a repository to browse them here.\n[Initialize repository](command:promptspushtool.initializeRepository)"
+      }
+    ],
+    "chatParticipants": [
+      {
+        "id": "promptspushtool",
+        "name": "prompt",
+        "fullName": "Prompt Catalog",
+        "description": "Retrieve shared prompts synchronized from Git.",
+        "isSticky": false
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "promptspushtool.pullLatestPrompts",
+          "when": "view == promptspushtool.promptsExplorer",
+          "group": "navigation@1",
+          "icon": "$(cloud-download)"
+        },
+        {
+          "command": "promptspushtool.initializeRepository",
+          "when": "view == promptspushtool.promptsExplorer",
+          "group": "navigation@2",
+          "icon": "$(repo-clone)"
+        },
+        {
+          "command": "promptspushtool.showPromptsFolder",
+          "when": "view == promptspushtool.promptsExplorer",
+          "group": "navigation@3",
+          "icon": "$(folder-opened)"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "promptspushtool.openPrompt",
+          "when": "view == promptspushtool.promptsExplorer && viewItem == promptFile",
+          "group": "inline@1"
+        },
+        {
+          "command": "promptspushtool.copyPromptContent",
+          "when": "view == promptspushtool.promptsExplorer && viewItem == promptFile",
+          "group": "inline@2"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.106.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "typescript-eslint": "^8.46.3",
+    "eslint": "^9.39.1",
+    "esbuild": "^0.27.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.9.3",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
