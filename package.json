@@ -2,6 +2,7 @@
   "name": "promptspushtool",
   "displayName": "Prompts Push Tool",
   "description": "Manage shared prompts from external repository with chat integration.",
+  "publisher": "RockJie",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.106.1"
