@@ -6,7 +6,8 @@ Prompts Push Tool keeps a shared prompt catalog in sync with a Git repository, s
 
 - Clone or update a remote repository of prompt files into the extension's private storage.
 - Browse prompts from a dedicated **Shared Prompts** tree view with quick access commands.
-- Copy prompt contents to the clipboard or open them in the editor in a single click.
+- Open prompts directly from the tree view and copy their contents with one click.
+- Sync any prompt into the active workspace's `.vscode/prompts` or `.cursor/prompts` folder for downstream tools.
 - Reference prompts in chat by name (`#prompt-name`) and stream their contents directly into a chat response.
 
 ## Getting Started
@@ -19,8 +20,9 @@ Prompts Push Tool keeps a shared prompt catalog in sync with a Git repository, s
 
 - `Prompts: Initialize Repository` – clone or reconfigure the Git source of shared prompts.
 - `Prompts: Pull Latest` – fetch and fast-forward to the newest prompt revisions.
-- `Prompts: Open` – open a prompt file in an editor tab (available from tree view or chat links).
+- `Prompts: Open` – open a prompt file in an editor tab by double-clicking a tree item or invoking the command manually.
 - `Prompts: Copy Content` – place the prompt contents on the clipboard.
+- `Prompts: Sync To Workspace` – copy a prompt into `.vscode/prompts` or `.cursor/prompts` inside the selected workspace folder.
 - `Prompts: Reveal Folder` – show the local prompts folder in the operating system file explorer.
 
 ## Settings

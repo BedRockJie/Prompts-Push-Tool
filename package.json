@@ -2,8 +2,13 @@
   "name": "promptspushtool",
   "displayName": "Prompts Push Tool",
   "description": "Manage shared prompts from external repository with chat integration.",
+  "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BedRockJie/Prompts-Push-Tool.git"
+  },
   "publisher": "RockJie",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.106.1"
   },
@@ -40,6 +45,11 @@
       {
         "command": "promptspushtool.copyPromptContent",
         "title": "Prompts: Copy Content",
+        "category": "Prompts"
+      },
+      {
+        "command": "promptspushtool.syncPromptToWorkspace",
+        "title": "Prompts: Sync To Workspace",
         "category": "Prompts"
       },
       {
@@ -119,14 +129,14 @@
       ],
       "view/item/context": [
         {
-          "command": "promptspushtool.openPrompt",
-          "when": "view == promptspushtool.promptsExplorer && viewItem == promptFile",
-          "group": "inline@1"
-        },
-        {
           "command": "promptspushtool.copyPromptContent",
           "when": "view == promptspushtool.promptsExplorer && viewItem == promptFile",
           "group": "inline@2"
+        },
+        {
+          "command": "promptspushtool.syncPromptToWorkspace",
+          "when": "view == promptspushtool.promptsExplorer && viewItem == promptFile",
+          "group": "inline@1"
         }
       ]
     }

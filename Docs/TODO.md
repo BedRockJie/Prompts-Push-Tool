@@ -1,0 +1,3 @@
+- [x] Missing property "icon".
+- [x] WARNING  A 'repository' field is missing from the 'package.json' manifest file.
+- [x] WARNING  LICENSE, LICENSE.md, or LICENSE.txt not found
