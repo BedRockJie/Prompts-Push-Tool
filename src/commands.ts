@@ -127,7 +127,8 @@ export function registerCommands(
 				},
 				async () => {
 					const relativeSegments = entry.relativePath.split(/[\\/]/).filter(Boolean);
-					const targetSegments = ['prompts', ...relativeSegments];
+					const baseSegments = destination.subfolderSegments ?? [];
+					const targetSegments = [...baseSegments, ...relativeSegments];
 					const targetFileUri = vscode.Uri.joinPath(destination.uri, ...targetSegments);
 
 					const parentSegments = targetSegments.slice(0, -1);
@@ -136,11 +137,16 @@ export function registerCommands(
 						: destination.uri;
 					await vscode.workspace.fs.createDirectory(parentUri);
 
+					const destinationDisplay = [destination.label, ...baseSegments].filter(Boolean).join('/');
+					const fullDisplayPath = destinationDisplay
+						? `${workspaceFolder.name}/${destinationDisplay}/${entry.relativePath}`
+						: `${workspaceFolder.name}/${entry.relativePath}`;
+
 					let shouldWrite = true;
 					try {
 						await vscode.workspace.fs.stat(targetFileUri);
 						const choice = await vscode.window.showWarningMessage(
-							`Prompt already exists at ${workspaceFolder.name}/${destination.label}/prompts/${entry.relativePath}. Overwrite?`,
+							`Prompt already exists at ${fullDisplayPath}. Overwrite?`,
 							{ modal: true },
 							'Overwrite',
 							'Cancel'
@@ -157,9 +163,7 @@ export function registerCommands(
 					const content = await repository.readPrompt(entry.relativePath);
 					const encoded = new TextEncoder().encode(content);
 					await vscode.workspace.fs.writeFile(targetFileUri, encoded);
-					vscode.window.showInformationMessage(
-						`Prompt synced to ${workspaceFolder.name}/${destination.label}/prompts/${entry.relativePath}.`
-					);
+					vscode.window.showInformationMessage(`Prompt synced to ${fullDisplayPath}.`);
 				}
 			);
 		}),
@@ -200,13 +204,20 @@ async function pickWorkspaceFolder(): Promise<vscode.WorkspaceFolder | undefined
 interface DestinationPick extends vscode.QuickPickItem {
 	uri: vscode.Uri;
 	label: string;
+	subfolderSegments: string[];
 }
 
 async function pickDestinationFolder(folder: vscode.WorkspaceFolder): Promise<DestinationPick | undefined> {
-	const options: DestinationPick[] = ['.vscode', '.cursor'].map((name) => ({
-		label: name,
-		description: `Sync prompt into ${name} directory`,
-		uri: vscode.Uri.joinPath(folder.uri, name)
+	const destinations: Array<{ label: string; description: string; subfolderSegments: string[] }> = [
+		{ label: '.vscode', description: 'Sync prompt into .vscode/prompts', subfolderSegments: ['prompts'] },
+		{ label: '.cursor', description: 'Sync prompt into .cursor/rules', subfolderSegments: ['rules'] }
+	];
+
+	const options: DestinationPick[] = destinations.map((destination) => ({
+		label: destination.label,
+		description: destination.description,
+		uri: vscode.Uri.joinPath(folder.uri, destination.label),
+		subfolderSegments: destination.subfolderSegments
 	}));
 
 	if (options.length === 1) {

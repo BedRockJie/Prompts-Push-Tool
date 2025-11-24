@@ -1,3 +1,4 @@
+- [x] Cursor的规则进行同步时，路径必须是`.cursor/rules`文件夹，区分编辑器创建不同的文件夹。当前还需要手动选择一下。
 - [x] Missing property "icon".
 - [x] WARNING  A 'repository' field is missing from the 'package.json' manifest file.
 - [x] WARNING  LICENSE, LICENSE.md, or LICENSE.txt not found

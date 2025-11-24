@@ -10,5 +10,7 @@
     },
     // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
     "typescript.tsc.autoDetect": "off",
-    "promptspushtool.repositoryUrl": "https://github.com/BedRockJie/embedded-linux-ai-prompts.git"
+    "promptspushtool.repositoryUrl": "http://172.16.81.146:8081/controlsystemembedded/aitools/cursorrulefile.git",
+    "promptspushtool.branch": "master",
+    "promptspushtool.promptsFolder": "/"
 }
