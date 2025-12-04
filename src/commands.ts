@@ -99,7 +99,7 @@ export function registerCommands(
 		}),
 
 		vscode.commands.registerCommand('promptspushtool.syncPromptToWorkspace', async (item?: PromptTreeItem | PromptEntry) => {
-			const entry = resolveEntry(item);
+			const entry = await resolveOrPromptEntry(item, repository);
 			if (!entry) {
 				return;
 			}
@@ -450,6 +450,35 @@ class TemplateApplyCancelled extends Error {
 	constructor() {
 		super('Template application cancelled by user.');
 	}
+}
+
+async function resolveOrPromptEntry(
+	item: PromptTreeItem | PromptEntry | undefined,
+	repository: PromptRepository
+): Promise<PromptEntry | undefined> {
+	const resolved = resolveEntry(item);
+	if (resolved) {
+		return resolved;
+	}
+
+	const prompts = await repository.collectPromptFiles();
+	if (!prompts.length) {
+		vscode.window.showWarningMessage('提示词列表为空，请先拉取仓库。');
+		return undefined;
+	}
+
+	const pick = await vscode.window.showQuickPick(
+		prompts.map((prompt) => ({
+			label: prompt.name,
+			description: prompt.relativePath,
+			entry: prompt
+		})),
+		{
+			placeHolder: '选择要同步的提示词'
+		}
+	);
+
+	return pick?.entry;
 }
 
 function splitSegments(value: string | undefined): string[] {

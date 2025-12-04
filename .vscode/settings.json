@@ -12,5 +12,26 @@
     "typescript.tsc.autoDetect": "off",
     "promptspushtool.repositoryUrl": "http://172.16.81.146:8081/controlsystemembedded/aitools/cursorrulefile.git",
     "promptspushtool.branch": "master",
-    "promptspushtool.promptsFolder": "/"
+    "promptspushtool.promptsFolder": "/",
+    "promptspushtool.templates": [
+        {
+            "name": "C语言项目1",
+            "description": "同步常用规则与提示词 测试项目1",
+            "destination": ".cursor",
+            "files": [
+                {
+                    "source": "language/c.mdc",
+                    "target": "language/c.mdc"
+                },
+                {
+                    "source": "language/c++.mdc",
+                    "target": "language/c++.mdc"
+                },
+                {
+                    "source": "prompts/code_review/EmbeddedEnginner.mdc",
+                    "target": "prompts/code_review/EmbeddedEnginner.mdc"
+                }
+            ]
+        }
+    ]
 }

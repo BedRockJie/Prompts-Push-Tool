@@ -159,6 +159,13 @@
       }
     ],
     "menus": {
+      "commandPalette": [
+        {
+          "command": "promptspushtool.applyTemplateToWorkspace",
+          "when": "true",
+          "group": "9_prompts"
+        }
+      ],
       "view/title": [
         {
           "command": "promptspushtool.pullLatestPrompts",
