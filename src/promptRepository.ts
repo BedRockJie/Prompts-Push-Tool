@@ -37,7 +37,20 @@ export class PromptRepository {
 	}
 
 	get promptsRootUri(): vscode.Uri {
-		return vscode.Uri.joinPath(this.repoUri, this.config.promptsFolder);
+		// 允许将 promptsFolder 配置为 "/" 或 "" 来表示「仓库根目录」，
+		// 同时对配置值做一次简单标准化（去掉首尾的 / 或 \）。
+		const rawFolder = this.config.promptsFolder ?? '';
+		const trimmed = rawFolder.trim();
+
+		// 去掉前后的路径分隔符，例如 "/prompts/" -> "prompts"
+		const normalized = trimmed.replace(/^[/\\]+|[/\\]+$/g, '');
+
+		// 如果配置为空（例如 "", "/"），则直接使用仓库根目录
+		if (!normalized) {
+			return this.repoUri;
+		}
+
+		return vscode.Uri.joinPath(this.repoUri, normalized);
 	}
 
 	isConfigured(): boolean {
