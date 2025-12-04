@@ -10,14 +10,15 @@
   "publisher": "RockJie",
   "version": "0.0.3",
   "engines": {
-  "vscode": ">=1.105.0"
+    "vscode": ">=1.105.0"
   },
   "categories": [
     "Other"
   ],
   "activationEvents": [
     "onStartupFinished",
-    "onChatParticipant:promptspushtool"
+    "onChatParticipant:promptspushtool",
+    "onCommand:promptspushtool.applyTemplateToWorkspace"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -56,6 +57,11 @@
         "command": "promptspushtool.showPromptsFolder",
         "title": "Prompts: Reveal Folder",
         "category": "Prompts"
+      },
+      {
+        "command": "promptspushtool.applyTemplateToWorkspace",
+        "title": "Prompts: Apply Template",
+        "category": "Prompts"
       }
     ],
     "configuration": {
@@ -80,6 +86,52 @@
           "type": "boolean",
           "default": true,
           "description": "Pull the latest prompts automatically when the extension activates."
+        },
+        "promptspushtool.templates": {
+          "type": "array",
+          "default": [],
+          "markdownDescription": "Templates describe a batch of prompt files that can be copied into the current workspace with one command.\nEach object requires a `name`, optional `description` and `destination`, plus a `files` array that maps prompt sources to workspace targets.",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "files"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Display name that appears when picking templates."
+              },
+              "description": {
+                "type": "string",
+                "description": "Optional longer note shown under the quick pick results."
+              },
+              "destination": {
+                "type": "string",
+                "description": "Optional base path inside the workspace where all files will be copied."
+              },
+              "files": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "source"
+                  ],
+                  "properties": {
+                    "source": {
+                      "type": "string",
+                      "description": "Relative path (under prompts folder) to copy from."
+                    },
+                    "target": {
+                      "type": "string",
+                      "description": "Relative path (under workspace destination) to copy to. Defaults to source."
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -125,6 +177,12 @@
           "when": "view == promptspushtool.promptsExplorer",
           "group": "navigation@3",
           "icon": "$(folder-opened)"
+        },
+        {
+          "command": "promptspushtool.applyTemplateToWorkspace",
+          "when": "view == promptspushtool.promptsExplorer",
+          "group": "navigation@4",
+          "icon": "$(file-submodule)"
         }
       ],
       "view/item/context": [

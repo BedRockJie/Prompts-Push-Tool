@@ -31,6 +31,7 @@
 | **Prompts: Open** | 在编辑器中打开当前选中的提示词（支持双击树项）。 |
 | **Prompts: Copy Content** | 将提示词内容复制到剪贴板。 |
 | **Prompts: Sync To Workspace** | 将提示词保存到当前工作区的 `.vscode/prompts` 或 `.cursor/prompts` 中。 |
+| **Prompts: Apply Template** | 根据模板一次复制多个提示词文件到工作区指定位置。 |
 | **Prompts: Reveal Folder** | 在系统文件管理器中打开本地缓存目录。 |
 
 可在命令面板或 Shared Prompts 树视图的右键菜单中执行这些命令。
@@ -54,5 +55,29 @@
 - **无法克隆仓库**：确认本地已安装 Git，必要时配置代理或凭据。
 - **提示词未出现**：检查 `promptspushtool.promptsFolder` 设置是否指向正确目录，并执行 Pull 命令。
 - **聊天参与者不可见**：需要 VS Code Insider 或支持 Chat 功能的版本，且扩展成功加载。
+
+## 7. 模板批量复制
+
+1. 在 VS Code 设置中搜索 `Prompts Push Tool › Templates`，或直接编辑 `settings.json`，示例：
+
+```
+"promptspushtool.templates": [
+  {
+    "name": "Cursor 项目初始化",
+    "description": "同步常用规则与提示词",
+    "destination": ".cursor",
+    "files": [
+      { "source": "rules/base.md", "target": "rules/base.md" },
+      { "source": "rules/git.md" }
+    ]
+  }
+]
+```
+
+2. 每个模板包含：
+   - `name` / `description`：在命令面板和树视图按钮中展示；
+   - `destination`：可选，控制模板的基础落盘目录；
+   - `files`：`source` 指向提示词仓库中的路径，`target` 可自定义输出位置（默认与 `source` 一致）。
+3. 配置完成后执行 **Prompts: Apply Template**，选择目标工作区与模板，即可一次性复制多个文件；过程中支持覆盖/跳过全部等选项。
 
 如需更多帮助，请查看 `Docs/README.zh.md` 或提交 Issue。

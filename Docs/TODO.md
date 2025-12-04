@@ -1,3 +1,4 @@
+- [x] 创建一个模板的功能，可以针对项目创建不同的模板文件，从提示词库中一键拷贝多个文件到项目中。
 - [x] Cursor的规则进行同步时，路径必须是`.cursor/rules`文件夹，区分编辑器创建不同的文件夹。当前还需要手动选择一下。
 - [x] Missing property "icon".
 - [x] WARNING  A 'repository' field is missing from the 'package.json' manifest file.
