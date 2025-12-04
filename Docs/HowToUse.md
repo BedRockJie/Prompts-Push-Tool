@@ -20,7 +20,7 @@
    - HTTPS：`https://github.com/example/shared-prompts.git`
    - SSH：`git@github.com:example/shared-prompts.git`
 4. 如果仓库默认分支不是 `main`，请在设置中搜索 `prompts push tool`，将 `promptspushtool.branch` 改为实际分支名（如 `master`）。
-5. 若提示词不在仓库根目录，可在设置中调整 `promptspushtool.promptsFolder`。
+5. 若提示词不在仓库根目录，可在设置中调整 `promptspushtool.promptsFolder`；如果想让仓库根目录直接作为提示词目录，将该值设置为 `/` 或 `.`。
 
 ## 3. 常用命令
 

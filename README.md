@@ -31,7 +31,7 @@ Prompts Push Tool keeps a shared prompt catalog in sync with a Git repository, s
 
 - `promptspushtool.repositoryUrl` – Git remote containing shared prompts.
 - `promptspushtool.branch` – branch that holds the prompts (default `main`).
-- `promptspushtool.promptsFolder` – path within the repository that contains prompt files (default `prompts`).
+- `promptspushtool.promptsFolder` – path within the repository that contains prompt files (default `prompts`; set `/` or `.` to treat the repo root as the prompts folder).
 - `promptspushtool.autoPullOnActivate` – automatically pull the latest prompts when the extension activates.
 - `promptspushtool.templates` – declarative template definitions that batch copy prompts into workspaces.
 

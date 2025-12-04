@@ -8,6 +8,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Added a Quick Pick fallback for **Prompts: Sync To Workspace** so the command works from the Command Palette even without a tree selection.
 - Forced **Prompts: Apply Template** into the Command Palette via `menus.commandPalette` so it is always discoverable even if VS Code hides uncategorized commands.
+- Allowed `promptspushtool.promptsFolder` to be set to `/` or `.` to treat the repository root as the prompt source directory, fixing template lookups for root-level prompts.
 
 ## [0.0.3] - 2025-12-04
 

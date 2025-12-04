@@ -43,8 +43,22 @@ export async function updateConfiguration<K extends keyof PromptToolConfiguratio
 }
 
 function normalizeFolder(input: string): string {
-	const normalized = normalizeRelativePath(input);
+	const trimmed = input.trim();
+	if (!trimmed) {
+		return 'prompts';
+	}
+
+	if (isExplicitRoot(trimmed)) {
+		return '';
+	}
+
+	const normalized = normalizeRelativePath(trimmed);
 	return normalized || 'prompts';
+}
+
+function isExplicitRoot(value: string): boolean {
+	const normalized = value.replace(/\\/g, '/').trim();
+	return normalized === '/' || normalized === '.' || normalized === './';
 }
 
 function normalizeTemplates(value: unknown): PromptTemplateConfig[] {
